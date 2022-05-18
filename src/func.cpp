@@ -112,7 +112,7 @@ void Server::concurrency(){
                                 close(connectfd);
                                 exit(EXIT_SUCCESS);
                 }
-                close(connectfd);
+                close(connectfd);                                                                        //closing the connection
         }
 }
 
