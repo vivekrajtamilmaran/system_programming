@@ -5,9 +5,9 @@ INC = include/
 SRC = src/
 CFLAG = -c
 OFLAG = -o
-all: server client createObj
+all: server client
 
-server:
+server: createObj
 	$(GPP) $(OFLAG) $(BIN)server $(SRC)server.cpp $(OBJ)func.o
 createObj:
 	$(GPP) $(CFLAG) $(OFLAG) $(OBJ)func.o $(SRC)func.cpp

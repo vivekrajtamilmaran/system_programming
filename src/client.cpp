@@ -29,7 +29,7 @@ int main(){
 
                 sockfd=socket(AF_INET, SOCK_STREAM, 0);
                 if(sockfd < 0){
-                        fputs("Socket can't be created ",stderr);
+                        perror("Socket can't be created ");
                         exit(EXIT_FAILURE);
                 }
                 connectfd=connect(sockfd,(struct sockaddr *)&servaddr,slen);
@@ -43,7 +43,7 @@ int main(){
                         mlen=write(1,"Enter the message from client to server :",42);
                         mlen=read(0,cmsg,MAX);
                         mlen=write(sockfd,cmsg,strlen(cmsg));
-                        mlen=write(1, "Message sent client to server",31);
+                        mlen=write(1, "Message sent client to server",30);
                         if(strcmp(cmsg,"bye\n")==0){
                                 close(sockfd);
                                 exit(0);

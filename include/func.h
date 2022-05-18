@@ -1,5 +1,7 @@
 //Header file for tcp socket 
-
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
 class Server{
 		struct sockaddr_in servaddr, cliaddr;
         	char cmsg[256];
@@ -13,7 +15,7 @@ class Server{
 
 	public: 
 
-		void func();
+		void createSocket();
 		void shmcreate();
 		void shmattach();
 		void sharememInc();

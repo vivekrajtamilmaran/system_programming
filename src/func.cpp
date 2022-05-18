@@ -1,5 +1,4 @@
 //Function to create bind and listen socket
-#include <sstream>
 #include <iostream>
 #include <unistd.h>
 #include <sys/socket.h>
@@ -9,12 +8,12 @@
 #include <sys/ipc.h>
 #include <sys/shm.h>
 #include <sys/wait.h>
-#define ADDRSERV "127.0.0.1"
-#define MAX 1024
+#define ADDRSERV "0.0.0.0"
+#define MAX 256
 #define PORT 8011
 using namespace std;
-#include "/home/cguser11/may17/include/func.h"
-#define DIR "../keyfile"
+#include "../include/func.h"
+#define DIR "../src/keyfile"
 //Function to create shared memory
 void Server::shmcreate(){
 	 key=ftok(DIR,65);
@@ -31,7 +30,7 @@ void Server::shmattach(){
 }
 //Function to destroy shared memory
 void Server::shmdestroy(){
-//	shmdt(count);
+	shmdt(count);
         shmctl(shm_id,IPC_RMID,0);
 }
 //Function to increment shared memory count 
@@ -39,7 +38,7 @@ void Server::shmWrite(){
 	(*count)++;
 }
 //function to create socket
-void Server::func(){               
+void Server::createSocket(){               
 
         slen=sizeof(sockaddr_in);
         memset(&servaddr,0,slen);
@@ -53,7 +52,7 @@ void Server::func(){
 
         sockfd=socket(AF_INET, SOCK_STREAM, 0);
         if(sockfd < 0){
-                fputs("Socket creation has not been done",stderr);
+                perror("Socket creation has not been done");
                 exit(EXIT_FAILURE);
         }
         ret=bind(sockfd, (struct sockaddr *)&servaddr, slen);
@@ -80,17 +79,14 @@ void Server::concurrency(){
                 pid = fork();
                 if(pid==0){
 			write(1,"No. of connections :",20);
-			std::stringstream ss;
-			ss << *count;
-			std::string c;
-			ss >> c;
-			cout << c << endl;
+			
+			cout << *count << endl;
                         close(sockfd);
                         while(1){
                                 mlen = read(connectfd,cmsg,MAX);
 				if(strcmp(cmsg,"bye\n")==0 || strcmp(cmsg,"Bye\n")==0){
 					close(connectfd);
-					cout << "Client said bye and left" << endl;
+					cout << "Client left" << endl;
 					exit(0);
 				}
                                 if(mlen==0){
