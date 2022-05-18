@@ -1,4 +1,4 @@
-//Header file for tcp socket 
+//Header file for tcp socket server  
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -15,11 +15,10 @@ class Server{
 
 	public: 
 
-		void createSocket();
-		void shmcreate();
-		void shmattach();
-		void sharememInc();
-		void shmdestroy();
-		void concurrency();
-		void shmWrite();
+		void createSocket();	//function to create socket
+		void shmcreate();	//function to create shared memory
+		void shmattach();	//function to attach shared memory
+		void shmdestroy();	//function to destroy shared memory
+		void concurrency();	//function to make server work in concurrency
+		void shmWrite();	//function to write the connections 
 };
